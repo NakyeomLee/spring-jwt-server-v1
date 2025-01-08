@@ -15,5 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDTO reqDTO, Errors errors) {
+        LoginUser loginUser = userService.로그인(reqDTO);
 
+        // 세션에 저장안함 (이유: stateless 서버)
+        return ResponseEntity.ok()
+                .header("Authorization", loginUser.getJwt())
+                .body(Resp.success(loginUser));
+    }
 }
