@@ -14,7 +14,9 @@ public class CorsFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
 
         String origin = request.getHeader("Origin");
+        System.out.println("Origin : " + origin);
         response.setHeader("Access-Control-Allow-Origin", origin);
+//        response.setHeader("Access-Control-Allow-Origin", "*"); // *(아스트릭크)도 허용됨
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");
@@ -24,7 +26,8 @@ public class CorsFilter implements Filter {
         // Preflight 요청을 허용하고 바로 응답하는 코드
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
-        }else {
+
+        } else {
             chain.doFilter(req, res);
         }
     }
